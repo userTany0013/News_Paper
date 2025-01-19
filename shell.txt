@@ -1,0 +1,44 @@
+from news.models import *
+user__1 = User.objects.create_user('user_1')
+user__2 = User.objects.create_user('user_2')
+author__1 =Author.objects.create(user=user__1)
+author__2 =Author.objects.create(user=user__2)
+cate_1 = Category.objects.create(name="Спорт")
+cate_2 = Category.objects.create(name="Искуство")
+cate_3 = Category.objects.create(name="Политика")
+cate_4 = Category.objects.create(name="Экономика")
+article_1 = Post.objects.create(author=author__1, article_or_news='AR' , heading="Заголовок статьи 1", text="Текст статьи 1")
+article_2 = Post.objects.create(author=author__2, article_or_news='AR' , heading="Заголовок статьи 2", text="Текст статьи 2")
+news_1 = Post.objects.create(author=author__1, article_or_news='NE',  heading="Заголовок новости 1", text="Текст новости 1")
+c_a_1 = PostCategory.objects.create(post=article_1, category=cate_2)
+c_a_2 = PostCategory.objects.create(post=article_2, category=cate_4)
+c_n_2 = PostCategory.objects.create(post=news_1, category=cate_1)
+c_a_1_2 = PostCategory.objects.create(post=article_1, category=cate_3)
+com_1 = Comment.objects.create(post=article_1, user=user__1, text="Текст коментария 1")
+com_2 = Comment.objects.create(post=article_2, user=user__2, text="Текст коментария 2")
+com_3 = Comment.objects.create(post=news_1, user=user__1, text="Текст коментария 3")
+com_4 = Comment.objects.create(post=news_1, user=user__2, text="Текст коментария 4")
+article_1.like()
+article_2.dislike()
+news_1.dislike()
+news_1.dislike()
+com_1.like()
+com_2.like()
+com_1.like()
+com_3.dislike()
+com_4.dislike()
+author__1.update_rating()
+author__2.update_rating()
+a_ob = Author.objects.order_by("-rating")
+a_ob[0].rating
+a_ob[0].user.username
+p_ob = Post.objects.filter(article_or_news = 'AR').order_by("-rating")
+a_p = p_ob[0].author
+a_u = a_p.user
+a_u.username
+p_ob[0].date_time
+p_ob[0].rating
+p_ob[0].heading
+pr = p_ob[0].preview()
+pr
+Comment.objects.filter(post = p_ob[0]).values("date_time", "user", "rating", "text")
