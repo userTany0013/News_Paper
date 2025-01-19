@@ -5,6 +5,7 @@ from .forms import PostForm
 from .models import *
 from .filters import PostFilter
 
+
 class PostList(ListView):
     model = Post
     ordering = '-date_time'
@@ -37,7 +38,16 @@ class PostDetail(DetailView):
     context_object_name = 'post'
 
 
-class NewsCreate(CreateView):
+class ArticleOrNewsCreate(CreateView):
     form_class = PostForm
     model = Post
-    template_name = 'flatpages/news_create.html'
+    template_name = 'flatpages/article_news_create.html'
+
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        if self.request.path == 'news/create/':
+            post.article_or_news = 'NE'
+        elif self.request.path == 'news/article/create/':
+            post.article_or_news = 'AR'
+        post.save()
+        return super().form_valid(form)
