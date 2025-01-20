@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -54,7 +55,7 @@ class ArticleOrNewsCreate(CreateView):
         return super().form_valid(form)
 
 
-class ArticleOrNewsUpdate(UpdateView):
+class ArticleOrNewsUpdate(LoginRequiredMixin, UpdateView):
     form_class = PostForm
     model = Post
     template_name = 'flatpages/article_news_create.html'
