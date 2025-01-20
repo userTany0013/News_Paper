@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from .forms import PostForm
 from .models import *
@@ -18,7 +19,7 @@ class PostSearchList(ListView):
     model = Post
     ordering = '-date_time'
     template_name = 'flatpages/search.html'
-    context_object_name = 'posts'
+    context_object_name = 'posts_search'
     paginate_by = 10
 
     def get_queryset(self):
@@ -45,9 +46,24 @@ class ArticleOrNewsCreate(CreateView):
 
     def form_valid(self, form):
         post = form.save(commit=False)
-        if self.request.path == 'news/create/':
+        if self.request.path == '/news/create/':
             post.article_or_news = 'NE'
-        elif self.request.path == 'news/article/create/':
+        elif self.request.path == '/news/article/create/':
             post.article_or_news = 'AR'
         post.save()
         return super().form_valid(form)
+
+
+class ArticleOrNewsUpdate(UpdateView):
+    form_class = PostForm
+    model = Post
+    template_name = 'flatpages/article_news_create.html'
+
+
+class PostDelete(DeleteView):
+    model = Post
+    template_name = 'flatpages/post_delete.html'
+    success_url = reverse_lazy('post_list')
+
+
+

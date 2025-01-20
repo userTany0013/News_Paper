@@ -11,8 +11,8 @@ class PostFilter(FilterSet):
         queryset=Author.objects.all(),
         label='Автор',
     )
-
-    date_time = django_filters.DateFilter(widget=DateInput(attrs={'type': 'date', 'field': 'date_time'}))
+    date_time = django_filters.DateFilter(widget=DateInput(attrs={'type': 'date', 'field': 'date_time'}),
+                                          lookup_expr='date__gte')
 
     class Meta:
         model = Post
