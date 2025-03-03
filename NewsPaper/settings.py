@@ -157,3 +157,9 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 
 ACCOUNT_FORMS = {'signup': 'news.forms.CommonSignupForm'}
+
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'Tany911922@yandex.ru'
+EMAIL_HOST_PASSWORD = '!!!!'
+EMAIL_USE_SSL = True

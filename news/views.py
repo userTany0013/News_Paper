@@ -1,9 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.shortcuts import redirect
+from django.shortcuts import render, reverse, redirect
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
+from django.views import View
+from django.core.mail import send_mail
+from datetime import datetime
 
 from .forms import PostForm
 from .models import *
@@ -61,6 +64,15 @@ class ArticleOrNewsCreate(PermissionRequiredMixin, CreateView):
             post.article_or_news = 'AR'
         post.save()
         return super().form_valid(form)
+
+
+
+    send_mail(
+        subject="!!!",
+        message="",
+        from_email="Tany911922@yandex.ru",
+        recipient_list=['tany1ghom@gmail.com']
+    )
 
 
 class ArticleOrNewsUpdate(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
