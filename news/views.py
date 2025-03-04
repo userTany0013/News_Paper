@@ -49,6 +49,13 @@ class PostDetail(DetailView):
     template_name = 'flatpages/post.html'
     context_object_name = 'post'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        x = self.request.user
+        y = Category.objects.get(name=self.object.category)
+        context['not_available_in_the_database'] = not SubscribCategory.objects.get(user=x, category=y).exists()
+        return context
+
 
 class ArticleOrNewsCreate(PermissionRequiredMixin, CreateView):
     form_class = PostForm
@@ -64,8 +71,6 @@ class ArticleOrNewsCreate(PermissionRequiredMixin, CreateView):
             post.article_or_news = 'AR'
         post.save()
         return super().form_valid(form)
-
-
 
     send_mail(
         subject="!!!",
