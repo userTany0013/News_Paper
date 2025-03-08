@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post
+from .models import Post, SubscribCategory
 from allauth.account.forms import SignupForm
 from django.contrib.auth.models import Group
 
@@ -16,3 +16,9 @@ class CommonSignupForm(SignupForm):
         common_group = Group.objects.get(name='common')
         common_group.user_set.add(user)
         return user
+
+
+class SubscribeForm(forms.ModelForm):
+    class Meta:
+        model = SubscribCategory
+        fields = []

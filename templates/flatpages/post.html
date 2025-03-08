@@ -9,7 +9,9 @@
 
 
 {% if not_available_in_the_database %}
-<button> <a href="">Подписаться на {  }</a> </button>
+{% for cat in category_post_all %}
+<button> <a href="/news/subscribe/{{ cat.id }}">Подписаться на "{{ cat.name }}"</a> </button>
+{% endfor %}
 {% endif %}
 
 {% endblock content %}

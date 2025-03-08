@@ -8,7 +8,7 @@ from django.views import View
 from django.core.mail import send_mail
 from datetime import datetime
 
-from .forms import PostForm
+from .forms import PostForm, CommonSignupForm, SubscribeForm
 from .models import *
 from .filters import PostFilter
 
@@ -52,8 +52,9 @@ class PostDetail(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         x = self.request.user
-        y = Category.objects.get(name=self.object.category)
-        context['not_available_in_the_database'] = not SubscribCategory.objects.get(user=x, category=y).exists()
+        y = self.object.category.all()
+        context['category_post_all'] = y
+        context['not_available_in_the_database'] = not SubscribCategory.objects.filter(user=x, category__in=y).exists()
         return context
 
 
@@ -102,5 +103,21 @@ def upgrade_me(request):
     return redirect('/news/')
 
 
+class SubscribCategoryCreate(CreateView):
+    form_class = SubscribeForm
+    model = SubscribCategory
+    template_name = 'flatpages/post.html'
 
-
+    def form_valid(self, form):
+        sub = form.save(commit=False)
+        sub.user = self.request.user
+        if self.request.path == '/news/subscribe/1':
+            sub.category = '1'
+        elif self.request.path == '/news/subscribe/2':
+            sub.category = '2'
+        elif self.request.path == '/news/subscribe/3':
+            sub.category = '3'
+        elif self.request.path == '/news/subscribe/4':
+            sub.category = '4'
+        sub.save()
+        return super().form_valid(form)
