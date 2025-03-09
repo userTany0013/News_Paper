@@ -4,11 +4,8 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.shortcuts import render, reverse, redirect
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
-from django.views import View
-from django.core.mail import send_mail
-from datetime import datetime
 
-from .forms import PostForm, CommonSignupForm, SubscribeForm
+from .forms import PostForm, SubscribeForm
 from .models import *
 from .filters import PostFilter
 
@@ -73,13 +70,6 @@ class ArticleOrNewsCreate(PermissionRequiredMixin, CreateView):
         post.save()
         return super().form_valid(form)
 
-    send_mail(
-        subject="!!!",
-        message="",
-        from_email="Tany911922@yandex.ru",
-        recipient_list=['tany1ghom@gmail.com']
-    )
-
 
 class ArticleOrNewsUpdate(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
     form_class = PostForm
@@ -106,18 +96,18 @@ def upgrade_me(request):
 class SubscribCategoryCreate(CreateView):
     form_class = SubscribeForm
     model = SubscribCategory
-    template_name = 'flatpages/post.html'
+    template_name = 'flatpages/subscrib.html'
 
     def form_valid(self, form):
         sub = form.save(commit=False)
         sub.user = self.request.user
         if self.request.path == '/news/subscribe/1':
-            sub.category = '1'
+            sub.category = Category.objects.get(id=1)
         elif self.request.path == '/news/subscribe/2':
-            sub.category = '2'
+            sub.category = Category.objects.get(id=2)
         elif self.request.path == '/news/subscribe/3':
-            sub.category = '3'
+            sub.category = Category.objects.get(id=3)
         elif self.request.path == '/news/subscribe/4':
-            sub.category = '4'
+            sub.category = Category.objects.get(id=4)
         sub.save()
         return super().form_valid(form)

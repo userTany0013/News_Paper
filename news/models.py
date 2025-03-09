@@ -82,3 +82,6 @@ class Comment(models.Model):
 class SubscribCategory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
+
+    def get_absolute_url(self):
+        return reverse('post_list')
