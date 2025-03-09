@@ -25,7 +25,6 @@ def new_post_message(sender, instance, **kwargs):
             )
             msg = EmailMultiAlternatives(
                 subject=instance.heading,
-                body='massage.html',
                 from_email='Tany911922@yandex.ru',
                 to=address_list
             )

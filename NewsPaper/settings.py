@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.yandex',
+    'django_apscheduler',
 ]
 
 SITE_ID = 1
@@ -163,3 +164,9 @@ EMAIL_PORT = 465
 EMAIL_HOST_USER = 'Tany911922@yandex.ru'
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_SSL = True
+
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+APSCHEDULER_RUN_NOW_TIMEOUT = 25
+
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
