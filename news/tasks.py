@@ -1,10 +1,8 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
+import pytz
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
-from datetime import datetime, timedelta
-from django.utils import timezone
-
 
 from .models import *
 
@@ -14,13 +12,9 @@ def send_mails():
         address_list = []
         cat = i.id
         user_list = SubscribCategory.objects.filter(category=cat)
-        timezone.now()
-        q = datetime.now()
-        q_1 = q - timedelta(weeks=1)
         week_list = []
         for w in Post.objects.all():
-            if w.date_time >= q_1:
-                week_list.append(w)
+            week_list.append(w)
         for y in user_list:
             user = y.user
             user_e = User.objects.get(username=user)
