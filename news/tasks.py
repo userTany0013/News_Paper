@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from django.utils import timezone
-
+from celery import shared_task
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 
@@ -36,6 +36,7 @@ def send_mails():
         msg.send()
 
 
+@shared_task
 def new_post_message(sender, instance, **kwargs):
     address_list = []
     cat = instance.category.all()

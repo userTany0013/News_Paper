@@ -69,7 +69,7 @@ class ArticleOrNewsCreate(PermissionRequiredMixin, CreateView):
         elif self.request.path == '/news/article/create/':
             post.article_or_news = 'AR'
         post.save()
-        new_post_message.apply_async()
+        new_post_message.delay(self)
         return super().form_valid(form)
 
 
