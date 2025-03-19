@@ -15,6 +15,6 @@ class NewsConfig(AppConfig):
             id='mail send',
             func=send_mails,
             trigger='interval',
-            seconds=10,
+            weeks=1,
         )
         news_scheduler.start()

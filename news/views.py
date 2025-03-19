@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import PostForm, SubscribeForm
 from .models import *
 from .filters import PostFilter
+from .signals import new_post_message
 
 
 class PostList(ListView):
@@ -68,6 +69,7 @@ class ArticleOrNewsCreate(PermissionRequiredMixin, CreateView):
         elif self.request.path == '/news/article/create/':
             post.article_or_news = 'AR'
         post.save()
+        new_post_message.apply_async()
         return super().form_valid(form)
 
 
