@@ -7,6 +7,7 @@ from django.template.loader import render_to_string
 from .models import *
 
 
+@shared_task
 def send_mails():
     for i in Category.objects.all():
         address_list = []
@@ -37,7 +38,8 @@ def send_mails():
 
 
 @shared_task
-def new_post_message(sender, instance, **kwargs):
+def new_post_message(pk, sender, instance, **kwargs):
+    post = Post.objects.get(id=pk)
     address_list = []
     cat = instance.category.all()
     for i in cat:
