@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import PostForm, SubscribeForm
 from .models import *
 from .filters import PostFilter
-from .signals import new_post_message
+from .tasks import new_post_message
 
 
 class PostList(ListView):

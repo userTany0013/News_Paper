@@ -38,10 +38,10 @@ def send_mails():
 
 
 @shared_task
-def new_post_message(pk, sender, instance, **kwargs):
+def new_post_message(pk):
     post = Post.objects.get(id=pk)
     address_list = []
-    cat = instance.category.all()
+    cat = post.category.all()
     for i in cat:
         cat_obj = SubscribCategory.objects.filter(category=i.id)
         for o in cat_obj:
@@ -50,13 +50,13 @@ def new_post_message(pk, sender, instance, **kwargs):
             html_content = render_to_string(
                 'massage.html',
                 {
-                    'instance': instance,
+                    'instance': post,
                     'user_obj': user_obj,
-                    'text': instance.text[:50],
+                    'text': post.text[:50],
                 }
             )
             msg = EmailMultiAlternatives(
-                subject=instance.heading,
+                subject=post.heading,
                 from_email='Tany911922@yandex.ru',
                 to=address_list
             )
