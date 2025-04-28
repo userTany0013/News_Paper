@@ -236,16 +236,19 @@ LOGGING = {
             'level': 'INFO',
             'filters': ['require_debug_false'],
             'class': 'logging.FileHandler',
+            'filename': 'general.log',
             'formatter': 'simple4'
         },
         'errors.log': {
             'level': 'ERROR',
             'class': 'logging.FileHandler',
+            'filename': 'errors.log',
             'formatter': 'simple5'
         },
         'security.log': {
             'class': 'logging.FileHandler',
-            'formatter': 'simple6'
+            'formatter': 'simple6',
+            'filename': 'security.log',
         },
         'mail_admins': {
             'level': 'ERROR',
